@@ -1,0 +1,29 @@
+---
+- name: 'Get o365 endpoints list and and create acl for split tunnel'
+  hosts: localhost
+
+  vars:
+  - o365_endpoints_web: 'https://endpoints.office.com/endpoints/worldwide?clientrequestid=b10c5ed1-bad1-445f-b386-b919946339a7'
+  - o365_endpoints_list_file: 'o365_endpoints_list.json'
+  - o365_split_tmp_acl_cfg_file: 'o365_tmp_acl.cfg'
+  - o365_split_acl_cfg_file: 'o365_acl.cfg'
+  - o365_split_acl_name: 'MS-O365'
+
+  tasks:
+  - name: 'Get endpoints list from web'
+    get_url:
+     url: '{{ o365_endpoints_web }}'
+     dest: '{{ o365_endpoints_list_file }}'
+
+  - name: 'Read o365 endpoints list from json file'
+    set_fact:
+     o365_enpoints_json_list: "{{ lookup('file', '{{ o365_endpoints_list_file }}') }}"
+
+  - name: 'Create cfg file : {{ o365_split_tmp_acl_cfg_file }}'
+    template:
+     src: 'templates/create_o365_acl.yml'
+     dest: '{{ o365_split_tmp_acl_cfg_file }}'
+
+  - name: 'Create o365 acl cfg file : {{ o365_split_acl_cfg_file }}'
+    command: |
+     bash -c 'sort -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n {{ o365_split_tmp_acl_cfg_file }} | uniq > {{ o365_split_acl_cfg_file }}'
