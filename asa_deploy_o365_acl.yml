@@ -1,0 +1,14 @@
+---
+- name: 'Deploy o365 acl to cisco asa'
+  hosts: asa
+
+  vars:
+  - ansible_network_os: 'asa'
+  - ansible_connection: 'network_cli'
+  - ansible_user: 'sinog'
+  - ansible_password: 'sinog'
+  - o365_split_acl_cfg_file: 'o365_acl.cfg'
+
+  - name: 'Deploy o365 acl cfg file 2 asa'
+    asa_config:
+     src: '{{ o365_split_acl_cfg_file }}'
