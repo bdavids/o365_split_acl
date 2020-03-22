@@ -21,7 +21,7 @@
 
   - name: 'Create cfg file : {{ o365_split_tmp_acl_cfg_file }}'
     template:
-     src: 'templates/create_o365_acl.yml'
+     src: 'create_o365_acl.yml'
      dest: '{{ o365_split_tmp_acl_cfg_file }}'
 
   - name: 'Create o365 acl cfg file : {{ o365_split_acl_cfg_file }}'
