@@ -13,3 +13,7 @@ vpn-tunnel-protocol ssl-client ssl-clientless<br/>
 ansible-playbook create_o365_acl_list.yml<br/>
 
 ansible-playbook asa_deploy_o365_acl.yml<br/>
+
+# Links :
+
+https://arstechnica.com/information-technology/2020/03/microsoft-and-ars-advise-split-tunnel-vpns-to-minimize-coronavirus-woes/
