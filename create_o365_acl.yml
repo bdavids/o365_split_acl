@@ -1,0 +1,13 @@
+{% for elem in o365_enpoints_json_list %}
+{%  if (( elem.serviceAreaDisplayName == 'Exchange Online' or elem.serviceArea == 'Skype' or elem.serviceArea == 'SharePoint' ) and elem.expressRoute == true ) %}
+{%   for itm in elem.ips %}
+{%    if itm|ipv4!=False %}
+{%     if itm|ipv4('address')|ipaddr('size') == 1 %}
+access-list {{ o365_split_acl_name }} standard permit host {{ itm|ipv4('address') }}
+{%     else %}
+access-list {{ o365_split_acl_name }} standard permit {{ itm|ipv4('network') }} {{ itm|ipv4('netmask') }}
+{%     endif %}
+{%    endif %}
+{%   endfor %}
+{%  endif %}
+{% endfor %}
